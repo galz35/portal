@@ -1,0 +1,104 @@
+syntax = "proto3";
+
+package medico;
+
+// ══════════════════════════════════════════════════════════
+// SERVICIOS CENTRALES (gRPC)
+// ══════════════════════════════════════════════════════════
+
+service AuthService {
+  rpc Login (LoginRequest) returns (LoginResponse) {}
+}
+
+service AdminService {
+  rpc GetUsuarios (GetUsuariosRequest) returns (GetUsuariosResponse) {}
+  rpc CrearUsuario (CrearUsuarioRequest) returns (UsuarioInfo) {}
+}
+
+service MedicoService {
+  rpc GetDashboard (DashboardRequest) returns (DashboardResponse) {}
+  rpc GetCasosClinicos (PaginationRequest) returns (CasosResponse) {}
+}
+
+service PacienteService {
+  rpc GetHistorialCitas (HistorialRequest) returns (CitasResponse) {}
+}
+
+// ══════════════════════════════════════════════════════════
+// MENSAJES Y OBJETOS (Tipos Compatibles con SQL Server)
+// ══════════════════════════════════════════════════════════
+
+// ─ Auth
+message LoginRequest {
+  string carnet = 1;
+  string password = 2;
+}
+
+message LoginResponse {
+  string access_token = 1;
+  UsuarioInfo user = 2;
+}
+
+// ─ Usuarios
+message UsuarioInfo {
+  int32 id_usuario = 1;
+  string carnet = 2;
+  string nombre_completo = 3;
+  string rol = 4;
+  string pais = 5;
+  string estado = 6;
+  optional int32 id_paciente = 7;
+  optional int32 id_medico = 8;
+}
+
+// ─ Generales / Paginación
+message GetUsuariosRequest {
+  string pais = 1;
+  int32 limit = 2;
+  int32 offset = 3;
+}
+
+message GetUsuariosResponse {
+  repeated UsuarioInfo items = 1;
+  int32 total = 2;
+}
+
+message CrearUsuarioRequest {
+  string carnet = 1;
+  string string_password_plano = 2;
+  string nombre_completo = 3;
+  string correo = 4;
+  string rol = 5;
+  string pais = 6;
+}
+
+// ─ Dashboards y Casos
+message DashboardRequest {
+  int32 id_entidad = 1;
+  string pais = 2;
+}
+
+message DashboardResponse {
+  int32 citas_hoy = 1;
+  int32 alertas_rojas = 2;
+  int32 casos_abiertos = 3;
+}
+
+message PaginationRequest {
+  int32 id_entidad = 1;
+  int32 limite = 2;
+  int32 offset = 3;
+}
+
+message CasosResponse {
+  repeated string titulos_casos = 1;
+  int32 total = 2;
+}
+
+message HistorialRequest {
+  int32 id_paciente = 1;
+}
+
+message CitasResponse {
+  repeated string citas_resumen = 1;
+}

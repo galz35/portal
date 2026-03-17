@@ -1,0 +1,891 @@
+{
+  "entities": {
+    "UsuarioAplicacion": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "UsuarioAplicacion",
+      "type": "object",
+      "description": "Represents users who access the application portal.",
+      "properties": {
+        "idUsuario": {
+          "type": "string",
+          "description": "Unique identifier for the UsuarioAplicacion entity."
+        },
+        "carnet": {
+          "type": "string",
+          "description": "Natural key, comes from EMP2024 or external source."
+        },
+        "rol": {
+          "type": "string",
+          "description": "User role (PACIENTE, MEDICO, ADMIN).",
+          "format": "string"
+        },
+        "estado": {
+          "type": "string",
+          "description": "User status (A = Active, I = Inactive)."
+        },
+        "ultimoAcceso": {
+          "type": "string",
+          "description": "Last login timestamp.",
+          "format": "date-time"
+        },
+        "idPaciente": {
+          "type": "string",
+          "description": "Reference to Paciente. (Relationship: UsuarioAplicacion 1:1 Paciente)"
+        },
+        "idMedico": {
+          "type": "string",
+          "description": "Reference to Medico. (Relationship: UsuarioAplicacion 1:1 Medico)"
+        }
+      },
+      "required": [
+        "idUsuario",
+        "carnet",
+        "rol",
+        "estado"
+      ]
+    },
+    "Paciente": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Paciente",
+      "type": "object",
+      "description": "Represents patient information.",
+      "properties": {
+        "idPaciente": {
+          "type": "string",
+          "description": "Unique identifier for the Paciente entity."
+        },
+        "carnet": {
+          "type": "string",
+          "description": "Patient's unique identification number."
+        },
+        "nombreCompleto": {
+          "type": "string",
+          "description": "Patient's full name."
+        },
+        "fechaNacimiento": {
+          "type": "string",
+          "description": "Patient's date of birth.",
+          "format": "date"
+        },
+        "sexo": {
+          "type": "string",
+          "description": "Patient's gender (M, F, O)."
+        },
+        "telefono": {
+          "type": "string",
+          "description": "Patient's phone number."
+        },
+        "correo": {
+          "type": "string",
+          "description": "Patient's email address.",
+          "format": "email"
+        },
+        "gerencia": {
+          "type": "string",
+          "description": "Patient's management area."
+        },
+        "area": {
+          "type": "string",
+          "description": "Patient's work area."
+        },
+        "estadoPaciente": {
+          "type": "string",
+          "description": "Patient's status (A = Active, I = Inactive)."
+        },
+        "nivelSemaforo": {
+          "type": "string",
+          "description": "Patient's traffic light level (V = Green, A = Yellow, R = Red)."
+        }
+      },
+      "required": [
+        "idPaciente",
+        "carnet",
+        "nombreCompleto",
+        "estadoPaciente"
+      ]
+    },
+    "Medico": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Medico",
+      "type": "object",
+      "description": "Represents doctor information.",
+      "properties": {
+        "idMedico": {
+          "type": "string",
+          "description": "Unique identifier for the Medico entity."
+        },
+        "nombreCompleto": {
+          "type": "string",
+          "description": "Doctor's full name."
+        },
+        "especialidad": {
+          "type": "string",
+          "description": "Doctor's specialty."
+        },
+        "tipoMedico": {
+          "type": "string",
+          "description": "Doctor's type (INTERNO, EXTERNO)."
+        },
+        "correo": {
+          "type": "string",
+          "description": "Doctor's email address.",
+          "format": "email"
+        },
+        "telefono": {
+          "type": "string",
+          "description": "Doctor's phone number."
+        },
+        "estadoMedico": {
+          "type": "string",
+          "description": "Doctor's status (A = Active, I = Inactive)."
+        }
+      },
+      "required": [
+        "idMedico",
+        "nombreCompleto",
+        "tipoMedico",
+        "estadoMedico"
+      ]
+    },
+    "ChequeoBienestar": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "ChequeoBienestar",
+      "type": "object",
+      "description": "Represents a wellness check.",
+      "properties": {
+        "idChequeo": {
+          "type": "string",
+          "description": "Unique identifier for the ChequeoBienestar entity."
+        },
+        "idPaciente": {
+          "type": "string",
+          "description": "Reference to Paciente. (Relationship: ChequeoBienestar N:1 Paciente)"
+        },
+        "fechaRegistro": {
+          "type": "string",
+          "description": "Date of the check-in registration.",
+          "format": "date-time"
+        },
+        "estadoAnimo": {
+          "type": "string",
+          "description": "Mood state."
+        },
+        "ruta": {
+          "type": "string",
+          "description": "Work route."
+        },
+        "modalidadTrabajo": {
+          "type": "string",
+          "description": "Work mode."
+        },
+        "aptoLaboral": {
+          "type": "boolean",
+          "description": "Suitable for work."
+        },
+        "alergiasActivas": {
+          "type": "boolean",
+          "description": "Active allergies."
+        },
+        "alergiasDescripcion": {
+          "type": "string",
+          "description": "Allergies description."
+        },
+        "calidadSueno": {
+          "type": "string",
+          "description": "Sleep quality."
+        },
+        "consumoAgua": {
+          "type": "string",
+          "description": "Water intake."
+        },
+        "yaConsultoMedico": {
+          "type": "boolean",
+          "description": "Already consulted a doctor."
+        },
+        "motivoNoAcudirMedico": {
+          "type": "string",
+          "description": "Reason for not seeing a doctor."
+        },
+        "nivelSemaforo": {
+          "type": "string",
+          "description": "Traffic light level (V = Green, A = Yellow, R = Red)."
+        },
+        "comentarioGeneral": {
+          "type": "string",
+          "description": "General comment."
+        },
+        "estadoChequeo": {
+          "type": "string",
+          "description": "Check-in status."
+        }
+      },
+      "required": [
+        "idChequeo",
+        "idPaciente",
+        "fechaRegistro",
+        "estadoAnimo",
+        "ruta",
+        "modalidadTrabajo",
+        "calidadSueno",
+        "consumoAgua",
+        "estadoChequeo"
+      ]
+    },
+    "CasoClinico": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "CasoClinico",
+      "type": "object",
+      "description": "Represents a clinical case.",
+      "properties": {
+        "idCaso": {
+          "type": "string",
+          "description": "Unique identifier for the CasoClinico entity."
+        },
+        "codigoCaso": {
+          "type": "string",
+          "description": "Case code."
+        },
+        "idPaciente": {
+          "type": "string",
+          "description": "Reference to Paciente. (Relationship: CasoClinico N:1 Paciente)"
+        },
+        "idCita": {
+          "type": "string",
+          "description": "Reference to CitaMedica. (Relationship: CasoClinico 1:1 CitaMedica)"
+        },
+        "fechaCreacion": {
+          "type": "string",
+          "description": "Case creation date.",
+          "format": "date-time"
+        },
+        "estadoCaso": {
+          "type": "string",
+          "description": "Case status."
+        },
+        "nivelSemaforo": {
+          "type": "string",
+          "description": "Traffic light level (V = Green, A = Yellow, R = Red)."
+        },
+        "motivoConsulta": {
+          "type": "string",
+          "description": "Reason for consultation."
+        },
+        "resumenClinicoUsuario": {
+          "type": "string",
+          "description": "User's clinical summary."
+        },
+        "diagnosticoUsuario": {
+          "type": "string",
+          "description": "User diagnosis."
+        }
+      },
+      "required": [
+        "idCaso",
+        "codigoCaso",
+        "idPaciente",
+        "fechaCreacion",
+        "estadoCaso",
+        "nivelSemaforo",
+        "motivoConsulta"
+      ]
+    },
+    "CitaMedica": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "CitaMedica",
+      "type": "object",
+      "description": "Represents a medical appointment.",
+      "properties": {
+        "idCita": {
+          "type": "string",
+          "description": "Unique identifier for the CitaMedica entity."
+        },
+        "idCaso": {
+          "type": "string",
+          "description": "Reference to CasoClinico. (Relationship: CitaMedica 1:1 CasoClinico)"
+        },
+        "idPaciente": {
+          "type": "string",
+          "description": "Reference to Paciente. (Relationship: CitaMedica N:1 Paciente)"
+        },
+        "idMedico": {
+          "type": "string",
+          "description": "Reference to Medico. (Relationship: CitaMedica N:1 Medico)"
+        },
+        "idChequeo": {
+          "type": "string",
+          "description": "Reference to ChequeoBienestar. (Relationship: CitaMedica 1:1 ChequeoBienestar)"
+        },
+        "fechaCita": {
+          "type": "string",
+          "description": "Appointment date.",
+          "format": "date"
+        },
+        "horaCita": {
+          "type": "string",
+          "description": "Appointment time."
+        },
+        "canalOrigen": {
+          "type": "string",
+          "description": "Origin channel (CHEQUEO, RRHH, etc.)."
+        },
+        "estadoCita": {
+          "type": "string",
+          "description": "Appointment status (PROGRAMADA, CONFIRMADA, FINALIZADA, CANCELADA)."
+        },
+        "notasCita": {
+          "type": "string",
+          "description": "Appointment notes."
+        }
+      },
+      "required": [
+        "idCita",
+        "idPaciente",
+        "fechaCita",
+        "horaCita",
+        "canalOrigen",
+        "estadoCita"
+      ]
+    },
+    "AtencionMedica": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "AtencionMedica",
+      "type": "object",
+      "description": "Represents medical care.",
+      "properties": {
+        "idAtencion": {
+          "type": "string",
+          "description": "Unique identifier for the AtencionMedica entity."
+        },
+        "idCita": {
+          "type": "string",
+          "description": "Reference to CitaMedica. (Relationship: AtencionMedica 1:1 CitaMedica)"
+        },
+        "idCaso": {
+          "type": "string",
+          "description": "Reference to CasoClinico. (Relationship: AtencionMedica 1:1 CasoClinico)"
+        },
+        "idMedico": {
+          "type": "string",
+          "description": "Reference to Medico. (Relationship: AtencionMedica N:1 Medico)"
+        },
+        "fechaAtencion": {
+          "type": "string",
+          "description": "Care date.",
+          "format": "date-time"
+        },
+        "pesoKg": {
+          "type": "number",
+          "description": "Weight in kilograms."
+        },
+        "alturaM": {
+          "type": "number",
+          "description": "Height in meters."
+        },
+        "presionArterial": {
+          "type": "string",
+          "description": "Blood pressure."
+        },
+        "frecuenciaCardiaca": {
+          "type": "number",
+          "description": "Heart rate."
+        },
+        "temperaturaC": {
+          "type": "number",
+          "description": "Temperature in Celsius."
+        },
+        "diagnosticoMedico": {
+          "type": "string",
+          "description": "Medical diagnosis."
+        },
+        "codigoDiagnostico": {
+          "type": "string",
+          "description": "Diagnosis code."
+        },
+        "planTratamiento": {
+          "type": "string",
+          "description": "Treatment plan."
+        },
+        "recomendaciones": {
+          "type": "string",
+          "description": "Recommendations."
+        },
+        "nivelSemaforo": {
+          "type": "string",
+          "description": "Traffic light level (V = Green, A = Yellow, R = Red)."
+        },
+        "requiereSeguimiento": {
+          "type": "boolean",
+          "description": "Requires follow-up."
+        },
+        "fechaSugeridaSeguimiento": {
+          "type": "string",
+          "description": "Suggested follow-up date.",
+          "format": "date"
+        },
+        "tipoAlta": {
+          "type": "string",
+          "description": "Discharge type."
+        },
+        "estadoAtencion": {
+          "type": "string",
+          "description": "Care status."
+        }
+      },
+      "required": [
+        "idAtencion",
+        "idCita",
+        "idCaso",
+        "fechaAtencion",
+        "diagnosticoMedico",
+        "tipoAlta",
+        "estadoAtencion"
+      ]
+    },
+    "ExamenMedico": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "ExamenMedico",
+      "type": "object",
+      "description": "Represents a medical exam.",
+      "properties": {
+        "idExamen": {
+          "type": "string",
+          "description": "Unique identifier for the ExamenMedico entity."
+        },
+        "idCaso": {
+          "type": "string",
+          "description": "Reference to CasoClinico. (Relationship: ExamenMedico N:1 CasoClinico)"
+        },
+        "idAtencion": {
+          "type": "string",
+          "description": "Reference to AtencionMedica. (Relationship: ExamenMedico N:1 AtencionMedica)"
+        },
+        "idPaciente": {
+          "type": "string",
+          "description": "Reference to Paciente. (Relationship: ExamenMedico N:1 Paciente)"
+        },
+        "tipoExamen": {
+          "type": "string",
+          "description": "Type of exam."
+        },
+        "fechaSolicitud": {
+          "type": "string",
+          "description": "Request date.",
+          "format": "date-time"
+        },
+        "fechaResultado": {
+          "type": "string",
+          "description": "Result date.",
+          "format": "date-time"
+        },
+        "laboratorio": {
+          "type": "string",
+          "description": "Laboratory."
+        },
+        "resultadoResumen": {
+          "type": "string",
+          "description": "Result summary."
+        },
+        "estadoExamen": {
+          "type": "string",
+          "description": "Exam status (PENDIENTE, ENTREGADO)."
+        }
+      },
+      "required": [
+        "idExamen",
+        "idCaso",
+        "idPaciente",
+        "tipoExamen",
+        "fechaSolicitud",
+        "estadoExamen"
+      ]
+    },
+    "SeguimientoPaciente": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "SeguimientoPaciente",
+      "type": "object",
+      "description": "Represents patient follow-up.",
+      "properties": {
+        "idSeguimiento": {
+          "type": "string",
+          "description": "Unique identifier for the SeguimientoPaciente entity."
+        },
+        "idCaso": {
+          "type": "string",
+          "description": "Reference to CasoClinico. (Relationship: SeguimientoPaciente N:1 CasoClinico)"
+        },
+        "idAtencion": {
+          "type": "string",
+          "description": "Reference to AtencionMedica. (Relationship: SeguimientoPaciente N:1 AtencionMedica)"
+        },
+        "idPaciente": {
+          "type": "string",
+          "description": "Reference to Paciente. (Relationship: SeguimientoPaciente N:1 Paciente)"
+        },
+        "fechaProgramada": {
+          "type": "string",
+          "description": "Scheduled date.",
+          "format": "date"
+        },
+        "fechaReal": {
+          "type": "string",
+          "description": "Actual date.",
+          "format": "date"
+        },
+        "tipoSeguimiento": {
+          "type": "string",
+          "description": "Follow-up type (llamada, Teams, presencial)."
+        },
+        "estadoSeguimiento": {
+          "type": "string",
+          "description": "Follow-up status (PENDIENTE, EN_PROCESO, RESUELTO)."
+        },
+        "nivelSemaforo": {
+          "type": "string",
+          "description": "Traffic light level (V = Green, A = Yellow, R = Red)."
+        },
+        "notasSeguimiento": {
+          "type": "string",
+          "description": "Follow-up notes."
+        },
+        "usuarioResponsable": {
+          "type": "string",
+          "description": "Responsible user."
+        }
+      },
+      "required": [
+        "idSeguimiento",
+        "idCaso",
+        "idPaciente",
+        "fechaProgramada",
+        "tipoSeguimiento",
+        "estadoSeguimiento",
+        "nivelSemaforo",
+        "usuarioResponsable"
+      ]
+    },
+    "RegistroPsicosocial": {
+      "title": "RegistroPsicosocial",
+      "description": "Stores psychosocial assessment records for an employee.",
+      "type": "object",
+      "properties": {
+        "idRegistroPsico": { "type": "string", "description": "Unique ID for the psychosocial record." },
+        "idPaciente": { "type": "string", "description": "ID of the patient being assessed." },
+        "idMedico": { "type": "string", "description": "ID of the doctor making the record." },
+        "fechaRegistro": { "type": "string", "format": "date-time", "description": "Timestamp of the record." },
+        "nivelEstres": { "type": "string", "enum": ["Bajo", "Medio", "Alto"], "description": "Perceived stress level." },
+        "sintomasPsico": { "type": "array", "items": { "type": "string" }, "description": "List of reported psychological symptoms." },
+        "estadoAnimoGeneral": { "type": "string", "description": "Open text from the patient about their mood." },
+        "analisisSentimiento": { "type": "string", "enum": ["Positivo", "Negativo", "Neutro"], "description": "AI-based sentiment analysis of the mood text." },
+        "riesgoSuicida": { "type": "boolean", "description": "Flag for suicide risk." },
+        "derivarAPsico": { "type": "boolean", "description": "Flag for psychology referral recommendation." },
+        "notasPsico": { "type": "string", "description": "Confidential notes from the doctor." }
+      },
+      "required": ["idRegistroPsico", "idPaciente", "idMedico", "fechaRegistro"]
+    },
+    "EmpleadoEmp2024": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "EmpleadoEmp2024",
+      "type": "object",
+      "description": "Represents employee data from SIGHO1.dbo.EMP2024.",
+      "properties": {
+        "carnet": {
+          "type": "string",
+          "description": "Employee identification number."
+        },
+        "nombreCompleto": {
+          "type": "string",
+          "description": "Employee's full name."
+        },
+        "correo": {
+          "type": "string",
+          "description": "Employee's email address.",
+          "format": "email"
+        },
+        "cargo": {
+          "type": "string",
+          "description": "Employee's position."
+        },
+        "gerencia": {
+          "type": "string",
+          "description": "Employee's management area."
+        },
+        "area": {
+          "type": "string",
+          "description": "Employee's work area."
+        },
+        "telefono": {
+          "type": "string",
+          "description": "Employee's phone number."
+        },
+        "nomJefe": {
+          "type": "string",
+          "description": "Employee's manager's name."
+        },
+        "correoJefe": {
+          "type": "string",
+          "description": "Employee's manager's email address.",
+          "format": "email"
+        },
+        "carnetJefe": {
+          "type": "string",
+          "description": "Employee's manager's identification number."
+        },
+        "pais": {
+          "type": "string",
+          "description": "Employee's country (NI, CR, HN)."
+        }
+      },
+      "required": [
+        "carnet",
+        "nombreCompleto",
+        "correo",
+        "cargo",
+        "gerencia",
+        "area",
+        "telefono",
+        "nomJefe",
+        "correoJefe",
+        "carnetJefe",
+        "pais"
+      ]
+    },
+    "Log": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "title": "Log",
+        "type": "object",
+        "description": "Represents a generic log entry for auditing and debugging.",
+        "properties": {
+            "idLog": {
+                "type": "string",
+                "description": "Unique identifier for the log entry."
+            },
+            "timestamp": {
+                "type": "string",
+                "format": "date-time",
+                "description": "The date and time when the event occurred."
+            },
+            "userId": {
+                "type": "string",
+                "description": "The ID of the user who triggered the event."
+            },
+            "userCarnet": {
+                "type": "string",
+                "description": "The carnet of the user."
+            },
+            "type": {
+                "type": "string",
+                "description": "The type of log entry (e.g., 'LOGIN_SUCCESS', 'LOGIN_FAILURE', 'DATA_UPDATE', 'APP_ERROR')."
+            },
+            "message": {
+                "type": "string",
+                "description": "A human-readable message describing the event."
+            },
+            "details": {
+                "type": "object",
+                "description": "A JSON object containing additional details, like the error stack trace or the data that was changed."
+            }
+        },
+        "required": ["idLog", "timestamp", "userId", "type", "message"]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password",
+      "anonymous"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "/usuariosAplicacion/{idUsuario}",
+        "definition": {
+          "entityName": "UsuarioAplicacion",
+          "schema": {
+            "$ref": "#/backend/entities/UsuarioAplicacion"
+          },
+          "description": "Stores application user data. Uses path-based ownership for security.  The 'rol' property determines user access rights.",
+          "params": [
+            {
+              "name": "idUsuario",
+              "description": "The unique identifier for the user. This is used for path-based authorization."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/pacientes/{idPaciente}",
+        "definition": {
+          "entityName": "Paciente",
+          "schema": {
+            "$ref": "#/backend/entities/Paciente"
+          },
+          "description": "Stores patient data.",
+          "params": [
+            {
+              "name": "idPaciente",
+              "description": "The unique identifier for the patient."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/medicos/{idMedico}",
+        "definition": {
+          "entityName": "Medico",
+          "schema": {
+            "$ref": "#/backend/entities/Medico"
+          },
+          "description": "Stores doctor data.",
+          "params": [
+            {
+              "name": "idMedico",
+              "description": "The unique identifier for the doctor."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/chequeosBienestar/{idChequeo}",
+        "definition": {
+          "entityName": "ChequeoBienestar",
+          "schema": {
+            "$ref": "#/backend/entities/ChequeoBienestar"
+          },
+          "description": "Stores wellness check data.",
+          "params": [
+            {
+              "name": "idChequeo",
+              "description": "The unique identifier for the wellness check."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/casosClinicos/{idCaso}",
+        "definition": {
+          "entityName": "CasoClinico",
+          "schema": {
+            "$ref": "#/backend/entities/CasoClinico"
+          },
+          "description": "Stores clinical case data.",
+          "params": [
+            {
+              "name": "idCaso",
+              "description": "The unique identifier for the clinical case."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/citasMedicas/{idCita}",
+        "definition": {
+          "entityName": "CitaMedica",
+          "schema": {
+            "$ref": "#/backend/entities/CitaMedica"
+          },
+          "description": "Stores medical appointment data.",
+          "params": [
+            {
+              "name": "idCita",
+              "description": "The unique identifier for the medical appointment."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/atencionesMedicas/{idAtencion}",
+        "definition": {
+          "entityName": "AtencionMedica",
+          "schema": {
+            "$ref": "#/backend/entities/AtencionMedica"
+          },
+          "description": "Stores medical care data.",
+          "params": [
+            {
+              "name": "idAtencion",
+              "description": "The unique identifier for the medical care."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/examenesMedicos/{idExamen}",
+        "definition": {
+          "entityName": "ExamenMedico",
+          "schema": {
+            "$ref": "#/backend/entities/ExamenMedico"
+          },
+          "description": "Stores medical exam data.",
+          "params": [
+            {
+              "name": "idExamen",
+              "description": "The unique identifier for the medical exam."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/seguimientosPacientes/{idSeguimiento}",
+        "definition": {
+          "entityName": "SeguimientoPaciente",
+          "schema": {
+            "$ref": "#/backend/entities/SeguimientoPaciente"
+          },
+          "description": "Stores patient follow-up data.",
+          "params": [
+            {
+              "name": "idSeguimiento",
+              "description": "The unique identifier for the patient follow-up."
+            }
+          ]
+        }
+      },
+       {
+        "path": "/registrosPsicosociales/{idRegistro}",
+        "definition": {
+          "entityName": "RegistroPsicosocial",
+          "schema": {
+            "$ref": "#/backend/entities/RegistroPsicosocial"
+          },
+          "description": "Stores psychosocial assessment records.",
+          "params": [
+            { "name": "idRegistro", "description": "The unique ID for the psychosocial record." }
+          ]
+        }
+      },
+      {
+        "path": "/empleadosEmp2024/{carnet}",
+        "definition": {
+          "entityName": "EmpleadoEmp2024",
+          "schema": {
+            "$ref": "#/backend/entities/EmpleadoEmp2024"
+          },
+          "description": "Stores employee data from SIGHO1.dbo.EMP2024.",
+          "params": [
+            {
+              "name": "carnet",
+              "description": "The unique employee identification number."
+            }
+          ]
+        }
+      },
+       {
+        "path": "/logs/{logId}",
+        "definition": {
+          "entityName": "Log",
+          "schema": {
+            "$ref": "#/backend/entities/Log"
+          },
+          "description": "Stores audit and error logs for the application.",
+          "params": [
+            {
+              "name": "logId",
+              "description": "The unique identifier for the log entry."
+            }
+          ]
+        }
+      }
+    ],
+    "reasoning": "The Firestore structure is designed to facilitate a secure and scalable medical application (\"Médica Corporativo\"). It follows the core principles of Authorization Independence, Clarity of Intent, DBAC (Database-Based Access Control), and QAPs (Rules are not Filters).\n\n**Authorization Independence:**\nThe design avoids hierarchical authorization dependencies by denormalizing user roles and access rights directly into the documents where access control is required. For example, roles are explicitly stored in the `usuariosAplicacion` collection. Subcollections are generally avoided, because authorization for subcollections requires repeating access control information to guarantee Authorization Independence. The application relies solely on `request.auth.uid` for authorization.\n\n**Structural Segregation (Homogeneous Security Posture):**\nThe structure maintains a clear separation of concerns, ensuring that each collection houses documents with similar access requirements. For instance, user-specific data is stored in the `/usuariosAplicacion` collection, while general patient and medical data reside in `/pacientes` and `/medicos` respectively. This segregation simplifies security rules and avoids mixing data with different access needs within the same collection.\n\n**Access Modeling:**\nThe design incorporates standardized access control patterns:\n\n1.  **Private Data:**  User-specific data like `UsuarioAplicacion` is secured using path-based ownership (`/usuariosAplicacion/{userId}`).\n2.  **Collaborative Data:**  While not explicitly present in the current schema, if collaborative access were needed in the future (e.g., shared medical records), a membership map (`members: {uid1: \"role\", uid2: \"role\"}`) would be used, and relevant attributes would be denormalized as per Strategy A.\n3. **Global Roles (DBAC):** Uses the content of documents in `/usuariosAplicacion/{userId}` to represent user roles (PACIENTE, MEDICO, ADMIN).  This removes the need for custom claims and keeps authorization logic inside the database.\n\n**QAPs (Rules are not Filters):**\nThe structure enables secure list operations by avoiding the need for complex filtering in security rules. The data segregation and explicit role assignments ensure that list operations can be secured based on simple role checks.\n\nTo summarize, the design emphasizes simplicity and security by denormalizing authorization data, segregating data based on access needs, and leveraging standard access control patterns. This approach results in more robust and maintainable security rules, and simplifies debugging and auditing."
+  }
+}
