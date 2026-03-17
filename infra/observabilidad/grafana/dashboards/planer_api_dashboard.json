@@ -1,0 +1,9 @@
+{
+  "title": "planer_api_dashboard",
+  "panels": [
+    { "title": "Latencia", "type": "timeseries" },
+    { "title": "Errores auth", "type": "timeseries" },
+    { "title": "Requests por minuto", "type": "timeseries" },
+    { "title": "Usuarios activos", "type": "stat" }
+  ]
+}

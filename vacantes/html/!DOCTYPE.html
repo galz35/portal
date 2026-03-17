@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal de Empleos - Claro Nicaragua</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* =========================================
+           VARIABLES (Mezcla de ambos diseños)
+           ========================================= */
+        :root {
+            --claro-red: #DA291C;
+            --claro-dark: #b52217;
+            --claro-light: #fff0f0;
+            --text-dark: #333333;
+            --text-gray: #666666;
+            --text-muted: #64748b;
+            --bg-light: #F8F9FA;
+            --border-color: #E0E0E0;
+            --border-light: #e2e8f0;
+            
+            /* Sombras de las tarjetas modernas */
+            --shadow-card: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+            --shadow-hover: 0 20px 25px -5px rgba(218, 41, 28, 0.1), 0 8px 10px -6px rgba(218, 41, 28, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background-color: #ffffff;
+            color: var(--text-dark);
+        }
+
+        /* =========================================
+           NAVBAR (Del diseño original)
+           ========================================= */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            background-color: white;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links a, .auth-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            margin: 0 15px;
+            font-weight: 500;
+            font-size: 15px;
+        }
+
+        .nav-links a.active {
+            color: var(--claro-red);
+        }
+
+        .auth-links {
+            display: flex;
+            align-items: center;
+        }
+
+        .auth-links .register {
+            font-weight: 700;
+        }
+
+        /* =========================================
+           HERO SECTION (Del diseño original ajustado)
+           ========================================= */
+        .hero {
+            position: relative;
+            width: 90%;
+            margin: 0 auto;
+            height: 500px;
+            border-radius: 30px;
+            background: url('1.png') no-repeat center 14% / cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 5%;
+            margin-bottom: 80px;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(to right, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.2) 100%);
+            border-radius: 30px;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            color: white;
+        }
+
+        .hero-content h1 {
+            font-size: 52px;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 15px;
+            letter-spacing: -1px;
+        }
+
+        .hero-content p {
+            font-size: 20px;
+            font-weight: 400;
+            line-height: 1.4;
+            color: #f0f0f0;
+        }
+
+        /* =========================================
+           BUSCADOR FLOTANTE (Del diseño original)
+           ========================================= */
+        .search-bar-container {
+            position: absolute;
+            bottom: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            width: 85%;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            z-index: 10;
+        }
+
+        .search-input-group {
+            flex: 2;
+            position: relative;
+            padding: 0 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-input-group input {
+            width: 100%;
+            border: none;
+            outline: none;
+            font-size: 15px;
+            padding: 10px 0;
+            background: transparent;
+        }
+
+        .search-icon-wrapper {
+            background: var(--claro-red);
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            position: absolute;
+            right: 15px;
+        }
+
+        .search-divider {
+            width: 1px;
+            height: 40px;
+            background-color: var(--border-color);
+            margin: 0 15px;
+        }
+
+        .search-select-group {
+            flex: 1.5;
+            display: flex;
+            flex-direction: column;
+            padding: 0 10px;
+        }
+
+        .search-select-group label {
+            font-size: 12px;
+            color: var(--text-gray);
+            margin-bottom: 4px;
+        }
+
+        .select-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-dark);
+        }
+
+        .select-wrapper i {
+            font-size: 15px;
+            color: var(--text-dark);
+        }
+
+        .select-wrapper select {
+            border: none;
+            outline: none;
+            font-weight: 700;
+            font-size: 15px;
+            background: transparent;
+            cursor: pointer;
+            width: 100%;
+            appearance: none;
+        }
+
+        .btn-primary {
+            background-color: var(--claro-red);
+            color: white;
+            border: none;
+            padding: 16px 28px;
+            border-radius: 30px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s;
+            white-space: nowrap;
+        }
+
+        .btn-primary:hover {
+            background-color: #b52217;
+        }
+
+        /* =========================================
+           SECCIÓN DE EMPLEOS Y TARJETAS (NUEVO DISEÑO)
+           ========================================= */
+        .featured-jobs {
+            padding: 60px 5%;
+            background-color: #ffffff;
+            /* Resplandores suaves para no dejar el fondo 100% plano */
+            background-image: 
+                radial-gradient(circle at -5% 50%, rgba(218, 41, 28, 0.03) 0%, transparent 40%),
+                radial-gradient(circle at 105% 90%, rgba(218, 41, 28, 0.06) 0%, transparent 50%);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 30px;
+        }
+
+        .featured-jobs h2 {
+            font-size: 24px;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+
+        .view-all {
+            color: var(--claro-red);
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .view-all:hover {
+            text-decoration: underline;
+        }
+
+        .cards-container {
+            display: flex;
+            gap: 25px;
+            overflow-x: auto;
+            padding: 10px 10px 40px 10px;
+            scroll-behavior: smooth;
+            cursor: grab;
+        }
+
+        .cards-container:active {
+            cursor: grabbing;
+        }
+
+        .cards-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Estilo de Tarjetas Premium */
+        .job-card {
+            background: white;
+            min-width: 350px;
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: var(--shadow-card);
+            border: 1px solid rgba(0,0,0,0.04);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            user-select: none;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .job-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-hover);
+            border-color: rgba(218, 41, 28, 0.15);
+        }
+
+        /* Borde superior decorativo animado */
+        .job-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 4px;
+            background: transparent;
+            transition: background 0.3s;
+        }
+
+        .job-card:hover::before {
+            background: linear-gradient(90deg, var(--claro-red), transparent);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .card-logo {
+            width: 50px;
+            height: 50px;
+            border-radius: 14px;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border-light);
+            transition: transform 0.3s ease;
+        }
+
+        .job-card:hover .card-logo {
+            transform: scale(1.05);
+        }
+
+        .card-title-group h3 {
+            font-size: 18px;
+            font-weight: 800;
+            line-height: 1.2;
+            color: var(--text-dark);
+            margin-bottom: 4px;
+        }
+
+        .company-name {
+            font-size: 13px;
+            color: var(--text-gray);
+            font-weight: 500;
+        }
+
+        /* Etiquetas (Badges) */
+        .badges-wrapper {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .badge {
+            background: var(--claro-light);
+            color: var(--claro-dark);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .badge.tech { 
+            background: #f1f5f9; 
+            color: #475569; 
+        }
+
+        .card-body {
+            margin-bottom: 25px;
+        }
+
+        .description {
+            font-size: 14px;
+            color: var(--text-gray);
+            line-height: 1.6;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .card-footer-box {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-light);
+        }
+
+        .salary-box p {
+            font-size: 12px;
+            color: var(--text-gray);
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .salary-box h4 {
+            font-size: 18px;
+            font-weight: 900;
+            color: var(--text-dark);
+        }
+
+        .btn-apply {
+            background: white;
+            color: var(--claro-red);
+            border: 2px solid var(--border-light);
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .job-card:hover .btn-apply {
+            background: var(--claro-red);
+            color: white;
+            border-color: var(--claro-red);
+        }
+
+        /* =========================================
+           FOOTER (Del diseño original)
+           ========================================= */
+        footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 5%;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer-links a {
+            text-decoration: none;
+            color: var(--text-gray);
+            margin-right: 25px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo">
+            <img src="logo.png" alt="Claro Logo" height="55">
+        </div>
+        <nav class="nav-links">
+            <a href="#" class="active">Inicio</a>
+            <a href="#">Empleos</a>
+            <a href="#">Empresas</a>
+            <a href="#">Blog</a>
+        </nav>
+        <div class="auth-links">
+            <a href="#" class="login">Ingresar</a>
+            <a href="#" class="register">Registrarse</a>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1>TU FUTURO<br>PROFESIONAL<br>COMIENZA AQUÍ.</h1>
+            <p>Encuentra el empleo de tus sueños en<br>Claro Nicaragua y crece con nosotros.</p>
+        </div>
+
+        <div class="search-bar-container">
+            <div class="search-input-group">
+                <input type="text" id="keyword" placeholder="Buscar cargo, empresa o habilidad">
+                <div class="search-icon-wrapper">
+                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                </div>
+            </div>
+            
+            <div class="search-divider"></div>
+            
+            <div class="search-select-group">
+                <label>Locación</label>
+                <div class="select-wrapper">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <select id="location">
+                        <option>Managua, Nicaragua</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="search-divider"></div>
+
+            <div class="search-select-group">
+                <label>Categoría</label>
+                <div class="select-wrapper">
+                    <i class="fa-solid fa-desktop"></i>
+                    <select id="category">
+                        <option>Tecnología</option>
+                    </select>
+                </div>
+            </div>
+
+            <button class="btn-primary" id="btn-search">Buscar Empleo <i class="fa-solid fa-arrow-right" style="margin-left: 5px;"></i></button>
+        </div>
+    </section>
+
+    <section class="featured-jobs">
+        <div class="section-header">
+            <h2>EMPLEOS DESTACADOS</h2>
+            <a href="#" class="view-all">Ver todos los empleos &rarr;</a>
+        </div>
+        
+        <div class="cards-container">
+            <div class="job-card">
+                <div class="card-header">
+                    <div class="card-logo">
+                        <img src="icono.png" alt="Claro" style="width: 35px;">
+                    </div>
+                    <div class="card-title-group">
+                        <h3>Desarrollador Backend Senior</h3>
+                        <p class="company-name">Claro Nicaragua</p>
+                    </div>
+                </div>
+                
+                <div class="badges-wrapper">
+                    <span class="badge"><i class="fa-solid fa-location-dot"></i> Presencial</span>
+                    <span class="badge tech">Node.js</span>
+                    <span class="badge tech">PostgreSQL</span>
+                </div>
+
+                <div class="card-body">
+                    <p class="description">Buscamos un arquitecto backend apasionado por crear sistemas escalables y de alta disponibilidad para millones de usuarios.</p>
+                </div>
+                
+                <div class="card-footer-box">
+                    <div class="salary-box">
+                        <p>Salario Estimado</p>
+                        <h4>$55,000</h4>
+                    </div>
+                    <button class="btn-apply">Aplicar Ahora</button>
+                </div>
+            </div>
+
+            <div class="job-card">
+                <div class="card-header">
+                    <div class="card-logo">
+                        <img src="icono.png" alt="Claro" style="width: 35px;">
+                    </div>
+                    <div class="card-title-group">
+                        <h3>Líder de Marketing Digital</h3>
+                        <p class="company-name">Claro Nicaragua</p>
+                    </div>
+                </div>
+                
+                <div class="badges-wrapper">
+                    <span class="badge"><i class="fa-solid fa-house-laptop"></i> Híbrido</span>
+                    <span class="badge tech">Growth</span>
+                    <span class="badge tech">SEO</span>
+                </div>
+
+                <div class="card-body">
+                    <p class="description">Lidera la estrategia de adquisición de usuarios mediante campañas digitales innovadoras y análisis de datos avanzados.</p>
+                </div>
+                
+                <div class="card-footer-box">
+                    <div class="salary-box">
+                        <p>Salario Estimado</p>
+                        <h4>$52,000</h4>
+                    </div>
+                    <button class="btn-apply">Aplicar Ahora</button>
+                </div>
+            </div>
+
+            <div class="job-card">
+                <div class="card-header">
+                    <div class="card-logo">
+                        <img src="icono.png" alt="Claro" style="width: 35px;">
+                    </div>
+                    <div class="card-title-group">
+                        <h3>Analista de Datos Pleno</h3>
+                        <p class="company-name">Claro Nicaragua</p>
+                    </div>
+                </div>
+                
+                <div class="badges-wrapper">
+                    <span class="badge"><i class="fa-solid fa-location-dot"></i> Presencial</span>
+                    <span class="badge tech">Python</span>
+                    <span class="badge tech">SQL</span>
+                </div>
+
+                <div class="card-body">
+                    <p class="description">Analiza grandes volúmenes de datos para identificar tendencias del mercado y optimizar la toma de decisiones empresariales.</p>
+                </div>
+                
+                <div class="card-footer-box">
+                    <div class="salary-box">
+                        <p>Salario Estimado</p>
+                        <h4>$58,000</h4>
+                    </div>
+                    <button class="btn-apply">Aplicar Ahora</button>
+                </div>
+            </div>
+            
+            <div class="job-card">
+                <div class="card-header">
+                    <div class="card-logo">
+                        <img src="icono.png" alt="Claro" style="width: 35px;">
+                    </div>
+                    <div class="card-title-group">
+                        <h3>Diseñador UX/UI</h3>
+                        <p class="company-name">Claro Nicaragua</p>
+                    </div>
+                </div>
+                
+                <div class="badges-wrapper">
+                    <span class="badge"><i class="fa-solid fa-earth-americas"></i> Remoto</span>
+                    <span class="badge tech">Figma</span>
+                    <span class="badge tech">Design System</span>
+                </div>
+
+                <div class="card-body">
+                    <p class="description">Crea experiencias que enamoren. Trabajarás directo con el equipo de producto para diseñar las nuevas interfaces de la app Claro.</p>
+                </div>
+                
+                <div class="card-footer-box">
+                    <div class="salary-box">
+                        <p>Salario Estimado</p>
+                        <h4>$45,000</h4>
+                    </div>
+                    <button class="btn-apply">Aplicar Ahora</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <nav class="footer-links">
+            <a href="#">Inicio</a>
+            <a href="#">Empleos</a>
+            <a href="#">Empresas</a>
+            <a href="#">Blog</a>
+        </nav>
+        <div class="logo">
+            <img src="logo.png" alt="Claro Logo" height="40">
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const btnSearch = document.getElementById('btn-search');
+            
+            btnSearch.addEventListener('click', (e) => {
+                e.preventDefault(); 
+                
+                const keyword = document.getElementById('keyword').value;
+                const location = document.getElementById('location').value;
+                const category = document.getElementById('category').value;
+
+                console.log('Buscando empleos con los siguientes filtros:');
+                console.log(`Palabra clave: ${keyword || 'Ninguna'}`);
+                console.log(`Ubicación: ${location}`);
+                console.log(`Categoría: ${category}`);
+                
+                alert('Simulación de búsqueda ejecutada. Los parámetros están en la consola del navegador.');
+            });
+
+            // Lógica para arrastrar las tarjetas con el mouse
+            const slider = document.querySelector('.cards-container');
+            let isDown = false;
+            let startX;
+            let scrollLeft;
+
+            slider.addEventListener('mousedown', (e) => {
+                isDown = true;
+                slider.style.cursor = 'grabbing';
+                startX = e.pageX - slider.offsetLeft;
+                scrollLeft = slider.scrollLeft;
+            });
+            
+            slider.addEventListener('mouseleave', () => { 
+                isDown = false; 
+                slider.style.cursor = 'grab';
+            });
+            
+            slider.addEventListener('mouseup', () => { 
+                isDown = false; 
+                slider.style.cursor = 'grab';
+            });
+            
+            slider.addEventListener('mousemove', (e) => {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - slider.offsetLeft;
+                const walk = (x - startX) * 2; 
+                slider.scrollLeft = scrollLeft - walk;
+            });
+        });
+    </script>
+</body>
+</html>

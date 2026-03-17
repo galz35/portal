@@ -1,0 +1,12 @@
+{
+  "title": "vacantes_api_dashboard",
+  "panels": [
+    { "title": "Requests por endpoint", "type": "timeseries" },
+    { "title": "p95 vacantes publicas", "type": "timeseries" },
+    { "title": "p95 postular", "type": "timeseries" },
+    { "title": "Errores RH", "type": "timeseries" },
+    { "title": "Fallos upload", "type": "timeseries" },
+    { "title": "Fallos IA", "type": "timeseries" },
+    { "title": "Tiempo Gemini", "type": "timeseries" }
+  ]
+}

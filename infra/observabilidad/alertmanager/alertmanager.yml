@@ -1,0 +1,8 @@
+route:
+  receiver: default
+  group_by: ["alertname", "service"]
+
+receivers:
+  - name: default
+
+templates: []

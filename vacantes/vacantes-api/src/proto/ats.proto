@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package vacantes.ats;
+
+service AtsService {
+  rpc AnalizarCvGeneral (AnalizarCvGeneralRequest) returns (AnalizarCvGeneralResponse);
+  rpc AnalizarCvParaVacante (AnalizarCvParaVacanteRequest) returns (AnalizarCvParaVacanteResponse);
+}
+
+message AnalizarCvGeneralRequest {
+  int32 id_persona = 1;
+  int32 id_archivo_persona = 2;
+  string texto_extraido = 3;
+}
+
+message AnalizarCvGeneralResponse {
+  int32 id_analisis_cv_ia = 1;
+  bool exito = 2;
+  string json_extraido = 3;
+}
+
+message AnalizarCvParaVacanteRequest {
+  int32 id_persona = 1;
+  int32 id_vacante = 2;
+  int32 id_archivo_persona = 3;
+  string texto_extraido = 4;
+  string titulo_vacante = 5;
+  string requisitos = 6;
+}
+
+message AnalizarCvParaVacanteResponse {
+  int32 id_analisis_cv_ia = 1;
+  bool exito = 2;
+  string json_resultado = 3;
+}

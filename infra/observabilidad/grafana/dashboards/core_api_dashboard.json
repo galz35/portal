@@ -1,0 +1,12 @@
+{
+  "title": "core_api_dashboard",
+  "panels": [
+    { "title": "Uptime", "type": "stat" },
+    { "title": "Requests por minuto", "type": "timeseries" },
+    { "title": "p95 latencia", "type": "timeseries" },
+    { "title": "Errores 401/403/500", "type": "timeseries" },
+    { "title": "Logins fallidos", "type": "timeseries" },
+    { "title": "Refresh fallidos", "type": "timeseries" },
+    { "title": "Sesiones activas", "type": "stat" }
+  ]
+}

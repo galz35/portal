@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Build outputs
+dist/
+**/dist/
+build/
+**/build/
+.next/
+**/.next/
+out/
+**/out/
+
+# Environment
+.env
+.env.*
+!.env.example
+**/.env
+**/.env.*
+!**/.env.example
+
+# Logs and system
+*.log
+**/*.log
+*.txt
+**/*.txt
+*.spec.js
+**/*.spec.js
+*.bat
+**/*.bat
+
+# Folders to exclude
+temp/
+**/temp/
+tmp/
+**/tmp/
+.agent/
+**/.agent/
+planer_backup_portal/
+.modified
+**/tsconfig.tsbuildinfo

@@ -1,0 +1,218 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --claro-red: #DA291C;
+  --claro-dark: #b52217;
+  --bg-page: #F4F6F8;
+  --bg-dark: #2A2A2A;
+  --text-dark: #333333;
+  --text-gray: #666666;
+  --border-color: #E0E0E0;
+  --white: #ffffff;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+  background-color: var(--bg-page);
+  color: var(--text-dark);
+}
+
+a { text-decoration: none; color: inherit; }
+button { cursor: pointer; font-family: inherit; }
+input, select { font-family: inherit; }
+
+/* Utility animations */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.fade-in { animation: fadeInUp 0.4s ease both; }
+.fade-in-delay-1 { animation: fadeInUp 0.4s ease 0.08s both; }
+.fade-in-delay-2 { animation: fadeInUp 0.4s ease 0.16s both; }
+.fade-in-delay-3 { animation: fadeInUp 0.4s ease 0.24s both; }
+
+/* Skeleton loader */
+.skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--radius-md);
+}
+
+.jobs-home-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(320px, 0.9fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.jobs-results-shell {
+  display: grid;
+  grid-template-columns: minmax(280px, 360px) minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+
+@media (max-width: 980px) {
+  .jobs-home-hero-grid,
+  .jobs-results-shell {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Support for the cloned manual UI */
+.cards-slider {
+  cursor: grab;
+  scroll-behavior: smooth;
+  user-select: none;
+}
+
+.cards-slider:active {
+  cursor: grabbing;
+}
+
+.cards-slider::-webkit-scrollbar {
+  display: none;
+}
+
+.job-card-premium:hover {
+  transform: translateY(-8px);
+}
+
+.job-card-premium::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: transparent;
+  transition: background 0.3s;
+}
+
+.job-card-premium:hover::before {
+  background: linear-gradient(90deg, #DA291C, transparent);
+}
+
+.card-logo-zoom {
+  transition: transform 0.3s ease;
+}
+
+.job-card-premium:hover .card-logo-zoom {
+  transform: scale(1.05);
+}
+
+.btn-apply-premium {
+  background: white;
+  color: #DA291C;
+  border: 2px solid #e2e8f0;
+  padding: 10px 20px;
+  border-radius: 25px;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.job-card-premium:hover .btn-apply-premium {
+  background: #DA291C;
+  color: white;
+  border-color: #DA291C;
+}
+
+.job-card-horizontal {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-left: 0px solid transparent;
+}
+
+.job-card-horizontal:hover {
+  box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+  border-color: rgba(218, 41, 28, 0.2);
+  border-left: 5px solid #DA291C;
+  transform: translateX(5px);
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  margin-top: 30px;
+}
+
+.page-item {
+  width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #E0E0E0;
+  background: #ffffff;
+  color: #666666;
+  text-decoration: none;
+  font-size: 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.page-item.active {
+  background: #DA291C;
+  color: #ffffff;
+  border-color: #DA291C;
+}
+
+.page-item:hover:not(.active) {
+  background: #F4F6F8;
+}
+
+.job-card-hover:hover {
+  transform: translateY(-8px);
+}
+
+/* FILTRO.HTML EXACT STYLES */
+.search-input-wrapper i {
+  color: var(--text-gray);
+  margin-right: 10px;
+}
+
+.job-logo {
+  width: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-right: 20px;
+  border-right: 1px solid var(--border-color);
+  margin-right: 20px;
+}
+
+.job-logo img {
+  max-width: 100%;
+  height: auto;
+}
+
+.job-title:hover {
+  color: var(--claro-red);
+}
+
+.btn-search:hover {
+  background-color: var(--claro-dark);
+}
+
+.btn-fav:hover {
+  background: rgba(218, 41, 28, 0.05);
+}
+
+.btn-apply:hover {
+  background-color: var(--claro-dark);
+}

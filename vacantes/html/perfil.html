@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Panel - Claro Nicaragua</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* =========================================
+           VARIABLES
+           ========================================= */
+        :root {
+            --claro-red: #DA291C;
+            --claro-dark: #b52217;
+            --sidebar-bg: #1E293B; /* Azul/Gris muy oscuro y moderno */
+            --sidebar-hover: #334155;
+            --bg-page: #F4F6F8;
+            --text-dark: #333333;
+            --text-gray: #666666;
+            --border-color: #E2E8F0;
+            --white: #ffffff;
+            --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: var(--bg-page);
+            color: var(--text-dark);
+        }
+
+        /* =========================================
+           NAVBAR GLOBAL
+           ========================================= */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            background-color: var(--white);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo img { height: 35px; }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            margin: 0 15px;
+            font-weight: 500;
+            font-size: 15px;
+        }
+        .nav-links a:hover { color: var(--claro-red); }
+
+        /* =========================================
+           LAYOUT DEL PANEL (DASHBOARD)
+           ========================================= */
+        .dashboard-layout {
+            display: flex;
+            min-height: calc(100vh - 65px); /* Alto total menos navbar */
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* --- BARRA LATERAL (SIDEBAR) --- */
+        .sidebar {
+            width: 280px;
+            background-color: var(--sidebar-bg);
+            color: var(--white);
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Widget de Usuario (Foto y Nombre) */
+        .user-widget {
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            position: relative;
+        }
+
+        .logout-link {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            color: #94a3b8;
+            font-size: 12px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: color 0.3s;
+        }
+        .logout-link:hover { color: #f87171; }
+
+        .avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: #cbd5e1;
+            border: 3px solid var(--white);
+            margin-bottom: 15px;
+            object-fit: cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            color: var(--sidebar-bg);
+        }
+
+        .user-name {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .user-title {
+            font-size: 13px;
+            color: #94a3b8;
+        }
+
+        /* Menú de Navegación Lateral */
+        .sidebar-menu {
+            list-style: none;
+            padding: 20px 0;
+        }
+
+        .sidebar-menu li a {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 16px 25px;
+            color: #cbd5e1;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            transition: all 0.3s;
+            border-left: 4px solid transparent;
+        }
+
+        .sidebar-menu li a:hover {
+            background-color: var(--sidebar-hover);
+            color: var(--white);
+        }
+
+        /* Estado Activo en Rojo Claro */
+        .sidebar-menu li a.active {
+            background-color: rgba(218, 41, 28, 0.1);
+            color: var(--white);
+            border-left-color: var(--claro-red);
+            font-weight: 700;
+        }
+
+        .sidebar-menu i {
+            width: 20px;
+            text-align: center;
+            font-size: 18px;
+        }
+
+        /* --- CONTENIDO PRINCIPAL --- */
+        .main-content {
+            flex-grow: 1;
+            padding: 40px;
+            background-color: var(--bg-page);
+        }
+
+        /* Banner de Bienvenida */
+        .welcome-banner {
+            background: linear-gradient(135deg, #1E293B, #334155);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow-card);
+        }
+
+        .welcome-banner h2 {
+            font-size: 20px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .welcome-banner i {
+            font-size: 24px;
+            color: var(--claro-red);
+        }
+
+        /* Tarjeta de Contenido */
+        .dashboard-card {
+            background: var(--white);
+            border-radius: 8px;
+            padding: 30px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-card);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 2px solid var(--claro-red);
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
+
+        .card-header h3 {
+            font-size: 18px;
+            font-weight: 900;
+            text-transform: uppercase;
+            color: var(--text-dark);
+        }
+
+        .card-header i {
+            color: var(--claro-red);
+            font-size: 20px;
+        }
+
+        .instruction-text {
+            color: var(--text-gray);
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        /* --- UI DE GESTIÓN DE CV --- */
+        
+        /* CV Actual (Archivo subido) */
+        .current-cv-box {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+
+        .cv-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .cv-icon {
+            font-size: 35px;
+            color: var(--claro-red);
+        }
+
+        .cv-details h4 {
+            font-size: 16px;
+            color: var(--text-dark);
+            margin-bottom: 4px;
+        }
+
+        .cv-details p {
+            font-size: 13px;
+            color: var(--text-gray);
+        }
+
+        .cv-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-action {
+            background: var(--white);
+            border: 1px solid var(--border-color);
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-dark);
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn-action:hover { background: #f1f5f9; }
+        
+        .btn-action.delete { color: var(--claro-red); }
+        .btn-action.delete:hover { background: #fff0f0; border-color: var(--claro-red); }
+
+        /* Dropzone para subir nuevo CV */
+        .upload-dropzone {
+            border: 2px dashed #cbd5e1;
+            border-radius: 8px;
+            padding: 40px 20px;
+            text-align: center;
+            background-color: #fcfcfc;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .upload-dropzone:hover, .upload-dropzone.dragover {
+            border-color: var(--claro-red);
+            background-color: rgba(218, 41, 28, 0.02);
+        }
+
+        .upload-dropzone i {
+            font-size: 40px;
+            color: #94a3b8;
+            margin-bottom: 15px;
+            transition: color 0.3s;
+        }
+
+        .upload-dropzone:hover i { color: var(--claro-red); }
+
+        .upload-dropzone h4 {
+            font-size: 16px;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+        }
+
+        .upload-dropzone p {
+            font-size: 14px;
+            color: var(--text-gray);
+            margin-bottom: 20px;
+        }
+
+        .btn-upload {
+            background-color: var(--claro-red);
+            color: var(--white);
+            border: none;
+            padding: 10px 25px;
+            font-size: 14px;
+            font-weight: 700;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s;
+            text-transform: uppercase;
+        }
+
+        .btn-upload:hover { background-color: var(--claro-dark); }
+
+        .file-limits {
+            display: block;
+            margin-top: 15px;
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+        /* Ocultar input real */
+        #cv-file-input { display: none; }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .dashboard-layout { flex-direction: column; }
+            .sidebar { width: 100%; }
+            .user-widget { padding: 20px; }
+            .main-content { padding: 20px; }
+            .current-cv-box { flex-direction: column; align-items: flex-start; gap: 15px; }
+            .cv-actions { width: 100%; justify-content: flex-start; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo">
+            <a href="index.html"><img src="logo.png" alt="Claro Logo"></a>
+        </div>
+        <nav class="nav-links">
+            <a href="index.html">Inicio</a>
+            <a href="busqueda.html">Buscar Empleos</a>
+        </nav>
+    </header>
+
+    <div class="dashboard-layout">
+        
+        <aside class="sidebar">
+            <div class="user-widget">
+                <a href="index.html" class="logout-link"><i class="fa-solid fa-arrow-right-from-bracket"></i> Cerrar Sesión</a>
+                
+                <div class="avatar">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                <h3 class="user-name">Gustavo Adolfo Lira</h3>
+                <p class="user-title">Candidato Activo</p>
+            </div>
+
+            <ul class="sidebar-menu">
+                <li>
+                    <a href="#" class="active">
+                        <i class="fa-solid fa-file-pdf"></i> Mi Currículum
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa-solid fa-id-card"></i> Mi Perfil
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa-solid fa-check-to-slot"></i> Mis Aplicaciones
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            
+            <div class="welcome-banner">
+                <i class="fa-solid fa-rocket"></i>
+                <h2>HOLA GUSTAVO ADOLFO</h2>
+            </div>
+
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                    <h3>Gestión de Currículum</h3>
+                </div>
+
+                <p class="instruction-text">
+                    Olvídate de llenar formularios largos. Sube tu hoja de vida en formato PDF o Word y usa el mismo archivo para aplicar a todas las vacantes de Claro Nicaragua con un solo clic.
+                </p>
+
+                <div class="current-cv-box" id="current-cv">
+                    <div class="cv-info">
+                        <div class="cv-icon"><i class="fa-solid fa-file-pdf"></i></div>
+                        <div class="cv-details">
+                            <h4>INGENIERO_SISTEMAS_GUSTAVO_LIRA.pdf</h4>
+                            <p>Subido el: 10/12/2025 • Tamaño: 1.2 MB</p>
+                        </div>
+                    </div>
+                    <div class="cv-actions">
+                        <button class="btn-action"><i class="fa-solid fa-eye"></i> Ver / Descargar</button>
+                        <button class="btn-action delete" id="btn-delete-cv"><i class="fa-solid fa-trash"></i> Eliminar</button>
+                    </div>
+                </div>
+
+                <div class="upload-dropzone" id="dropzone">
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                    <h4>Arrastra y suelta tu nuevo currículum aquí</h4>
+                    <p>o si lo prefieres, búscalo en tu computadora</p>
+                    
+                    <button class="btn-upload" onclick="document.getElementById('cv-file-input').click()">
+                        Explorar Archivos
+                    </button>
+                    <input type="file" id="cv-file-input" accept=".pdf, .doc, .docx">
+                    
+                    <span class="file-limits">Formatos permitidos: PDF, DOC, DOCX. Peso máximo: 5MB.</span>
+                </div>
+
+            </div>
+
+        </main>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const dropzone = document.getElementById('dropzone');
+            const fileInput = document.getElementById('cv-file-input');
+            const btnDelete = document.getElementById('btn-delete-cv');
+            const currentCvBox = document.getElementById('current-cv');
+
+            // --- Efectos Visuales para el Drag & Drop ---
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                dropzone.addEventListener(eventName, preventDefaults, false);
+            });
+
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropzone.addEventListener(eventName, () => {
+                    dropzone.classList.add('dragover');
+                });
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropzone.addEventListener(eventName, () => {
+                    dropzone.classList.remove('dragover');
+                });
+            });
+
+            // --- Simular Carga de Archivo ---
+            dropzone.addEventListener('drop', (e) => {
+                let dt = e.dataTransfer;
+                let files = dt.files;
+                handleFiles(files);
+            });
+
+            fileInput.addEventListener('change', function() {
+                handleFiles(this.files);
+            });
+
+            function handleFiles(files) {
+                if(files.length > 0) {
+                    const fileName = files[0].name;
+                    alert('¡CV "' + fileName + '" subido con éxito! (Simulación)');
+                    // Aquí conectarías con tu backend para subir el archivo
+                    
+                    // Simular que reaparece la caja del CV actual
+                    currentCvBox.style.display = 'flex';
+                    currentCvBox.querySelector('h4').textContent = fileName;
+                }
+            }
+
+            // --- Simular Eliminación de CV ---
+            btnDelete.addEventListener('click', () => {
+                if(confirm('¿Estás seguro de que deseas eliminar tu currículum actual?')) {
+                    currentCvBox.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

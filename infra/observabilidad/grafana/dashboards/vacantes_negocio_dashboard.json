@@ -1,0 +1,13 @@
+{
+  "title": "vacantes_negocio_dashboard",
+  "panels": [
+    { "title": "Vacantes activas", "type": "stat" },
+    { "title": "Vacantes ocupadas", "type": "stat" },
+    { "title": "Postulaciones hoy", "type": "stat" },
+    { "title": "Internos vs externos", "type": "piechart" },
+    { "title": "Postulaciones por pais", "type": "barchart" },
+    { "title": "Tiempo promedio cobertura", "type": "timeseries" },
+    { "title": "Terna abierta", "type": "stat" },
+    { "title": "Blacklist activa", "type": "stat" }
+  ]
+}

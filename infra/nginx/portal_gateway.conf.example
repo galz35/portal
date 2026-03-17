@@ -1,0 +1,246 @@
+map $http_upgrade $connection_upgrade {
+    default upgrade;
+    ''      close;
+}
+
+limit_req_zone $binary_remote_addr zone=portal_auth_ip:20m rate=10r/m;
+limit_req_zone $binary_remote_addr zone=candidato_auth_ip:20m rate=12r/m;
+limit_req_zone $binary_remote_addr zone=cv_upload_ip:20m rate=5r/m;
+
+upstream portal_core_api {
+    server 127.0.0.1:8080 max_fails=3 fail_timeout=30s;
+    keepalive 32;
+}
+
+upstream portal_vacantes_api {
+    server 127.0.0.1:8081 max_fails=3 fail_timeout=30s;
+    keepalive 32;
+}
+
+upstream portal_web {
+    server 127.0.0.1:4173;
+    keepalive 16;
+}
+
+upstream vacantes_web {
+    server 127.0.0.1:4174;
+    keepalive 16;
+}
+
+server {
+    listen 80;
+    server_name portal.empresa.local vacantes.empresa.local;
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl http2;
+    server_name portal.empresa.local;
+
+    ssl_certificate     C:/certs/portal/fullchain.pem;
+    ssl_certificate_key C:/certs/portal/privkey.pem;
+    ssl_session_timeout 1d;
+    ssl_session_cache shared:PortalSSL:10m;
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_prefer_server_ciphers off;
+
+    client_max_body_size 2m;
+    proxy_read_timeout 90s;
+    proxy_send_timeout 90s;
+    send_timeout 90s;
+
+    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header X-Frame-Options "DENY" always;
+    add_header Referrer-Policy "same-origin" always;
+    add_header Permissions-Policy "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()" always;
+    add_header Cross-Origin-Opener-Policy "same-origin" always;
+    add_header Cross-Origin-Resource-Policy "same-site" always;
+
+    location /api/auth/login-empleado {
+        limit_req zone=portal_auth_ip burst=20 nodelay;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Request-Id $request_id;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_set_header Connection "";
+        proxy_pass http://portal_core_api;
+    }
+
+    location /api/auth/ {
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Request-Id $request_id;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_set_header Connection "";
+        proxy_pass http://portal_core_api;
+    }
+
+    location /api/core/ {
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Request-Id $request_id;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_set_header Connection "";
+        proxy_pass http://portal_core_api;
+    }
+
+    location /health/ {
+        allow 127.0.0.1;
+        allow ::1;
+        deny all;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Request-Id $request_id;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_pass http://portal_core_api;
+    }
+
+    location /metrics {
+        allow 127.0.0.1;
+        allow ::1;
+        deny all;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Request-Id $request_id;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_pass http://portal_core_api;
+    }
+
+    location / {
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Request-Id $request_id;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_set_header Connection "";
+        proxy_pass http://portal_web;
+    }
+}
+
+server {
+    listen 443 ssl http2;
+    server_name vacantes.empresa.local;
+
+    ssl_certificate     C:/certs/vacantes/fullchain.pem;
+    ssl_certificate_key C:/certs/vacantes/privkey.pem;
+    ssl_session_timeout 1d;
+    ssl_session_cache shared:VacantesSSL:10m;
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_prefer_server_ciphers off;
+
+    client_max_body_size 12m;
+    proxy_read_timeout 120s;
+    proxy_send_timeout 120s;
+    send_timeout 120s;
+
+    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header X-Frame-Options "DENY" always;
+    add_header Referrer-Policy "same-origin" always;
+    add_header Permissions-Policy "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()" always;
+    add_header Cross-Origin-Opener-Policy "same-origin" always;
+    add_header Cross-Origin-Resource-Policy "same-site" always;
+
+    location = /api/candidatos/register {
+        limit_req zone=candidato_auth_ip burst=20 nodelay;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Request-Id $request_id;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_set_header Connection "";
+        proxy_pass http://portal_vacantes_api;
+    }
+
+    location = /api/candidatos/login {
+        limit_req zone=candidato_auth_ip burst=20 nodelay;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Request-Id $request_id;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_set_header Connection "";
+        proxy_pass http://portal_vacantes_api;
+    }
+
+    location = /api/vacantes/cv/subir {
+        limit_req zone=cv_upload_ip burst=8 nodelay;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Request-Id $request_id;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_set_header Connection "";
+        proxy_pass http://portal_vacantes_api;
+    }
+
+    location /api/candidatos/ {
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Request-Id $request_id;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_set_header Connection "";
+        proxy_pass http://portal_vacantes_api;
+    }
+
+    location /api/vacantes/ {
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Request-Id $request_id;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_set_header Connection "";
+        proxy_pass http://portal_vacantes_api;
+    }
+
+    location /health/ {
+        allow 127.0.0.1;
+        allow ::1;
+        deny all;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Request-Id $request_id;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_pass http://portal_vacantes_api;
+    }
+
+    location /metrics {
+        allow 127.0.0.1;
+        allow ::1;
+        deny all;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Request-Id $request_id;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_pass http://portal_vacantes_api;
+    }
+
+    location / {
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Request-Id $request_id;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_set_header Connection "";
+        proxy_pass http://vacantes_web;
+    }
+}

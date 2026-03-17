@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package vacantes.cv;
+
+service CvService {
+  rpc RegistrarArchivoCv (RegistrarArchivoCvRequest) returns (RegistrarArchivoCvResponse);
+  rpc ObtenerCvPrincipal (ObtenerCvPrincipalRequest) returns (ObtenerCvPrincipalResponse);
+}
+
+message RegistrarArchivoCvRequest {
+  int32 id_persona = 1;
+  string nombre_original = 2;
+  string ruta_storage = 3;
+  string mime_type = 4;
+  int64 tamano_bytes = 5;
+}
+
+message RegistrarArchivoCvResponse {
+  int32 id_archivo_persona = 1;
+  bool exito = 2;
+}
+
+message ObtenerCvPrincipalRequest {
+  int32 id_persona = 1;
+}
+
+message ObtenerCvPrincipalResponse {
+  int32 id_archivo_persona = 1;
+  string nombre_original = 2;
+  string ruta_storage = 3;
+  string mime_type = 4;
+  bool exito = 5;
+}

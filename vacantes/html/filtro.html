@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Búsqueda de Empleos - Claro Nicaragua</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* =========================================
+           VARIABLES CLARO
+           ========================================= */
+        :root {
+            --claro-red: #DA291C;
+            --claro-dark: #b52217;
+            --bg-page: #F4F6F8;
+            --bg-dark: #2A2A2A; /* Color oscuro para la barra de búsqueda tipo Tecoloco */
+            --text-dark: #333333;
+            --text-gray: #666666;
+            --border-color: #E0E0E0;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-page);
+            color: var(--text-dark);
+        }
+
+        /* =========================================
+           NAVBAR
+           ========================================= */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            background-color: var(--white);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            margin: 0 15px;
+            font-weight: 500;
+            font-size: 14px;
+            text-transform: uppercase;
+        }
+
+        .nav-links a.active {
+            color: var(--claro-red);
+            font-weight: 700;
+        }
+
+        .auth-links a {
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-gray);
+            margin-left: 20px;
+        }
+
+        .auth-links .register {
+            color: var(--claro-red);
+        }
+
+        /* =========================================
+           BARRA DE BÚSQUEDA OSCURA (Estilo Tecoloco)
+           ========================================= */
+        .search-strip {
+            background-color: var(--bg-dark);
+            padding: 20px 5%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .search-form {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .search-input-wrapper {
+            position: relative;
+            flex: 2;
+            background: var(--white);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+        }
+
+        .search-input-wrapper i {
+            color: var(--text-gray);
+            margin-right: 10px;
+        }
+
+        .search-input-wrapper input, .search-input-wrapper select {
+            width: 100%;
+            border: none;
+            outline: none;
+            padding: 12px 0;
+            font-size: 14px;
+            background: transparent;
+        }
+
+        .search-select-wrapper {
+            flex: 1;
+            background: var(--white);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+            position: relative;
+        }
+
+        .search-select-wrapper select {
+            width: 100%;
+            border: none;
+            outline: none;
+            padding: 12px 0;
+            font-size: 14px;
+            appearance: none;
+            cursor: pointer;
+        }
+
+        .search-select-wrapper::after {
+            content: '\f0d7'; /* Flecha hacia abajo FontAwesome */
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            right: 15px;
+            color: var(--text-gray);
+            pointer-events: none;
+        }
+
+        .btn-search {
+            background-color: var(--claro-red);
+            color: var(--white);
+            border: none;
+            padding: 0 30px;
+            font-weight: 700;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            text-transform: uppercase;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-search:hover {
+            background-color: var(--claro-dark);
+        }
+
+        /* =========================================
+           CONTENEDOR PRINCIPAL (2 Columnas)
+           ========================================= */
+        .main-container {
+            display: flex;
+            gap: 30px;
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 5%;
+        }
+
+        /* --- BARRA LATERAL (Filtros) --- */
+        .sidebar {
+            width: 260px;
+            flex-shrink: 0;
+        }
+
+        .filter-box {
+            background: var(--white);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .filter-header {
+            font-size: 14px;
+            color: var(--text-gray);
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--claro-red);
+        }
+
+        .clear-filters {
+            color: var(--claro-red);
+            font-size: 12px;
+            text-align: right;
+            display: block;
+            text-decoration: none;
+            margin-bottom: 20px;
+        }
+
+        .filter-group {
+            margin-bottom: 25px;
+        }
+
+        .filter-title {
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .filter-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            color: var(--text-gray);
+            margin-bottom: 8px;
+            cursor: pointer;
+        }
+
+        .filter-item:hover {
+            color: var(--claro-red);
+        }
+
+        .filter-item.active {
+            color: var(--text-dark);
+            font-weight: 500;
+            background: #fff0f0;
+            padding: 5px 10px;
+            border-radius: 4px;
+            margin-left: -10px;
+            margin-right: -10px;
+        }
+
+        .filter-item.active i {
+            color: var(--claro-red);
+        }
+
+        /* --- CONTENIDO DE RESULTADOS --- */
+        .results-content {
+            flex-grow: 1;
+        }
+
+        .results-header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .results-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-dark);
+            text-transform: uppercase;
+        }
+
+        .btn-alert {
+            background: transparent;
+            border: 1px solid var(--claro-red);
+            color: var(--claro-red);
+            padding: 8px 15px;
+            font-size: 12px;
+            font-weight: 700;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-alert:hover {
+            background: var(--claro-red);
+            color: var(--white);
+        }
+
+        /* Barra de herramientas (Orden y paginación) */
+        .results-toolbar {
+            background: var(--white);
+            border: 1px solid var(--border-color);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            font-size: 13px;
+        }
+
+        .total-offers {
+            color: var(--text-dark);
+        }
+
+        .total-offers span {
+            color: var(--claro-red);
+            font-weight: 700;
+        }
+
+        .sort-options select {
+            border: 1px solid var(--border-color);
+            padding: 5px;
+            font-size: 13px;
+            outline: none;
+            border-radius: 3px;
+        }
+
+        /* --- LISTA DE EMPLEOS (Estilo Horizontal) --- */
+        .job-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .job-card-horizontal {
+            background: var(--white);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            transition: box-shadow 0.3s, border-color 0.3s;
+        }
+
+        .job-card-horizontal:hover {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border-color: rgba(218, 41, 28, 0.3);
+            border-left: 4px solid var(--claro-red);
+        }
+
+        .job-logo {
+            width: 80px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-right: 20px;
+            border-right: 1px solid var(--border-color);
+            margin-right: 20px;
+        }
+
+        .job-logo img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .job-details {
+            flex-grow: 1;
+        }
+
+        .job-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+            text-decoration: none;
+        }
+
+        .job-title:hover {
+            color: var(--claro-red);
+        }
+
+        .job-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            font-size: 13px;
+            color: var(--text-gray);
+        }
+
+        .job-meta span i {
+            width: 15px;
+            color: var(--text-gray);
+        }
+
+        .job-actions {
+            display: flex;
+            gap: 10px;
+            margin-left: 20px;
+        }
+
+        .btn-fav {
+            background: transparent;
+            border: 1px solid var(--claro-red);
+            color: var(--claro-red);
+            padding: 10px 15px;
+            font-size: 12px;
+            font-weight: 700;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: background 0.3s;
+        }
+
+        .btn-fav:hover {
+            background: var(--claro-light);
+        }
+
+        .btn-apply {
+            background: var(--claro-red);
+            border: 1px solid var(--claro-red);
+            color: var(--white);
+            padding: 10px 20px;
+            font-size: 12px;
+            font-weight: 700;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: background 0.3s;
+        }
+
+        .btn-apply:hover {
+            background: var(--claro-dark);
+        }
+
+        /* Paginación */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            margin-top: 30px;
+        }
+
+        .page-item {
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border-color);
+            background: var(--white);
+            color: var(--text-gray);
+            text-decoration: none;
+            font-size: 14px;
+            border-radius: 4px;
+        }
+
+        .page-item.active {
+            background: var(--claro-red);
+            color: var(--white);
+            border-color: var(--claro-red);
+        }
+
+        .page-item:hover:not(.active) {
+            background: var(--bg-page);
+        }
+
+    </style>
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo">
+            <a href="index.html">
+                <img src="logo.png" alt="Claro Logo" height="40">
+            </a>
+        </div>
+        <nav class="nav-links">
+            <a href="#">Inicio</a>
+            <a href="#" class="active">Búsqueda de Empleos</a>
+        </nav>
+        <div class="auth-links">
+            <a href="#" class="login">Ingresar</a>
+            <a href="#" class="register">Registrarse</a>
+        </div>
+    </header>
+
+    <section class="search-strip">
+        <div class="search-form">
+            <div class="search-input-wrapper">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="Nombre del cargo, Habilidades o Compañía">
+            </div>
+            
+            <div class="search-select-wrapper">
+                <select>
+                    <option>Informática | Internet</option>
+                    <option>Telecomunicaciones</option>
+                    <option>Ventas</option>
+                </select>
+            </div>
+
+            <div class="search-select-wrapper">
+                <select>
+                    <option>Nicaragua</option>
+                    <option>Managua</option>
+                    <option>León</option>
+                </select>
+            </div>
+
+            <button class="btn-search">
+                <i class="fa-solid fa-search"></i> Buscar
+            </button>
+        </div>
+    </section>
+
+    <div class="main-container">
+        
+        <aside class="sidebar">
+            <div class="filter-box">
+                <div class="filter-header">Mostrar Resultados Por</div>
+                <a href="#" class="clear-filters">Borrar Filtros</a>
+
+                <div class="filter-group">
+                    <div class="filter-title">Áreas</div>
+                    <div class="filter-item active">
+                        <span>Informática | Internet (23)</span>
+                        <i class="fa-solid fa-xmark"></i>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <div class="filter-title">Rubro</div>
+                    <div class="filter-item">
+                        <span>Telecomunicaciones</span>
+                        <span>(15)</span>
+                    </div>
+                    <div class="filter-item">
+                        <span>Comercial</span>
+                        <span>(6)</span>
+                    </div>
+                    <div class="filter-item">
+                        <span>Servicios</span>
+                        <span>(2)</span>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <div class="filter-title">Ubicación</div>
+                    <div class="filter-item">
+                        <span>Managua</span>
+                        <span>(18)</span>
+                    </div>
+                    <div class="filter-item">
+                        <span>Remoto</span>
+                        <span>(5)</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <main class="results-content">
+            
+            <div class="results-header-top">
+                <h1 class="results-title">Trabajos en Informática Internet en Nicaragua</h1>
+                <button class="btn-alert">
+                    ENVÍAME OFERTAS COMO ESTAS <i class="fa-solid fa-caret-down"></i>
+                </button>
+            </div>
+
+            <div class="results-toolbar">
+                <div class="total-offers">Total de ofertas activas: <span>23</span></div>
+                
+                <div class="sort-options">
+                    <i class="fa-solid fa-arrow-down-short-wide"></i> Ordenar por 
+                    <select>
+                        <option>MÁS RECIENTES</option>
+                        <option>SALARIO (MAYOR A MENOR)</option>
+                        <option>RELEVANCIA</option>
+                    </select>
+                </div>
+
+                <div class="pagination-info">
+                    Mostrar 
+                    <a href="#" style="color:var(--text-gray)">40</a> | 
+                    <a href="#" style="color:var(--text-gray)">80</a> | 
+                    <a href="#" style="color:var(--claro-red)">100</a> 
+                    por página
+                </div>
+            </div>
+
+            <div class="job-list">
+                
+                <div class="job-card-horizontal">
+                    <div class="job-logo">
+                        <img src="icono.png" alt="Claro">
+                    </div>
+                    <div class="job-details">
+                        <a href="#" class="job-title">Desarrollador Backend Senior (Node.js/PostgreSQL)</a>
+                        <div class="job-meta">
+                            <span><i class="fa-solid fa-building"></i> CLARO NICARAGUA S.A.</span>
+                            <span><i class="fa-solid fa-hourglass-half"></i> Expira 10/04/2026</span>
+                            <span><i class="fa-solid fa-location-dot"></i> Managua, Nicaragua (Híbrido)</span>
+                        </div>
+                    </div>
+                    <div class="job-actions">
+                        <button class="btn-fav"><i class="fa-regular fa-star"></i> AGREGAR</button>
+                        <button class="btn-apply">VER OFERTA <i class="fa-solid fa-caret-right"></i></button>
+                    </div>
+                </div>
+
+                <div class="job-card-horizontal">
+                    <div class="job-logo">
+                        <img src="icono.png" alt="Claro">
+                    </div>
+                    <div class="job-details">
+                        <a href="#" class="job-title">QA Automation Tester (Selenium/Cypress)</a>
+                        <div class="job-meta">
+                            <span><i class="fa-solid fa-building"></i> CLARO NICARAGUA S.A.</span>
+                            <span><i class="fa-solid fa-hourglass-half"></i> Expira 15/04/2026</span>
+                            <span><i class="fa-solid fa-location-dot"></i> Managua, Nicaragua</span>
+                        </div>
+                    </div>
+                    <div class="job-actions">
+                        <button class="btn-fav"><i class="fa-regular fa-star"></i> AGREGAR</button>
+                        <button class="btn-apply">VER OFERTA <i class="fa-solid fa-caret-right"></i></button>
+                    </div>
+                </div>
+
+                <div class="job-card-horizontal">
+                    <div class="job-logo">
+                        <img src="icono.png" alt="Claro">
+                    </div>
+                    <div class="job-details">
+                        <a href="#" class="job-title">Analista de Infraestructura y Redes L2</a>
+                        <div class="job-meta">
+                            <span><i class="fa-solid fa-building"></i> CLARO NICARAGUA S.A.</span>
+                            <span><i class="fa-solid fa-hourglass-half"></i> Expira 19/04/2026</span>
+                            <span><i class="fa-solid fa-location-dot"></i> Remoto, Nicaragua</span>
+                        </div>
+                    </div>
+                    <div class="job-actions">
+                        <button class="btn-fav"><i class="fa-regular fa-star"></i> AGREGAR</button>
+                        <button class="btn-apply">VER OFERTA <i class="fa-solid fa-caret-right"></i></button>
+                    </div>
+                </div>
+
+                <div class="job-card-horizontal">
+                    <div class="job-logo">
+                        <img src="icono.png" alt="Claro">
+                    </div>
+                    <div class="job-details">
+                        <a href="#" class="job-title">Administrador de Bases de Datos (DBA Oracle)</a>
+                        <div class="job-meta">
+                            <span><i class="fa-solid fa-building"></i> CLARO NICARAGUA S.A.</span>
+                            <span><i class="fa-solid fa-hourglass-half"></i> Expira 23/04/2026</span>
+                            <span><i class="fa-solid fa-location-dot"></i> Managua, Nicaragua</span>
+                        </div>
+                    </div>
+                    <div class="job-actions">
+                        <button class="btn-fav"><i class="fa-regular fa-star"></i> AGREGAR</button>
+                        <button class="btn-apply">VER OFERTA <i class="fa-solid fa-caret-right"></i></button>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="pagination">
+                <a href="#" class="page-item"><i class="fa-solid fa-chevron-left"></i></a>
+                <a href="#" class="page-item active">1</a>
+                <a href="#" class="page-item">2</a>
+                <a href="#" class="page-item">3</a>
+                <a href="#" class="page-item"><i class="fa-solid fa-chevron-right"></i></a>
+            </div>
+
+        </main>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package vacantes.postulacion;
+
+service PostulacionService {
+  rpc Postular (PostularRequest) returns (PostularResponse);
+  rpc CambiarEstadoPostulacion (CambiarEstadoPostulacionRequest) returns (CambiarEstadoPostulacionResponse);
+}
+
+message PostularRequest {
+  int32 id_vacante = 1;
+  int32 id_persona = 2;
+  bool es_interna = 3;
+  string fuente_postulacion = 4;
+}
+
+message PostularResponse {
+  int32 id_postulacion = 1;
+  bool exito = 2;
+  string mensaje = 3;
+}
+
+message CambiarEstadoPostulacionRequest {
+  int32 id_postulacion = 1;
+  string estado_nuevo = 2;
+  string observacion = 3;
+  int32 id_cuenta_portal = 4;
+}
+
+message CambiarEstadoPostulacionResponse {
+  bool exito = 1;
+}

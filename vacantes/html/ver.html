@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle de Oferta Premium - Claro Nicaragua</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* =========================================
+           VARIABLES CLARO
+           ========================================= */
+        :root {
+            --claro-red: #DA291C;
+            --claro-dark: #b52217;
+            --bg-page: #F8F9FA; 
+            --text-dark: #333333;
+            --text-gray: #666666;
+            --border-color: #E6E9EC;
+            --white: #ffffff;
+            --shadow-card: 0 5px 20px rgba(0,0,0,0.05); 
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: var(--bg-page);
+            color: var(--text-dark);
+        }
+
+        /* =========================================
+           NAVBAR (Estilo original limpio)
+           ========================================= */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 5%;
+            background-color: var(--white);
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+            z-index: 100;
+        }
+
+        .logo { display: flex; align-items: center; }
+
+        .nav-links a, .auth-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            margin: 0 15px;
+            font-weight: 500;
+            font-size: 15px;
+        }
+
+        .nav-links a.active { color: var(--claro-red); font-weight: 700; }
+        .auth-links { display: flex; align-items: center; }
+        .auth-links .register { font-weight: 700; color: var(--claro-red); }
+
+        /* =========================================
+           CONTENEDOR PRINCIPAL (2 COLUMNAS)
+           ========================================= */
+        .job-detail-container {
+            max-width: 1100px; 
+            margin: 40px auto 80px; /* Margen superior ajustado al quitar la barra superior */
+            padding: 0 20px;
+            display: flex;
+            gap: 30px;
+            align-items: flex-start;
+        }
+
+        /* --- COLUMNA IZQUIERDA (CONTENIDO) --- */
+        .main-content {
+            flex: 2; 
+            background: var(--white);
+            padding: 40px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-card);
+            position: relative;
+        }
+
+        /* Botón Regresar dentro del cuadro */
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--claro-red);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 25px;
+            transition: color 0.3s;
+            text-transform: uppercase;
+        }
+
+        .back-link:hover {
+            color: var(--claro-dark);
+        }
+
+        .job-header h1 {
+            font-size: 32px;
+            font-weight: 900;
+            text-transform: uppercase;
+            color: var(--text-dark);
+            margin-bottom: 20px;
+            letter-spacing: -0.5px;
+        }
+
+        /* Divisor rojo sutil */
+        .job-header::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background-color: var(--claro-red);
+            margin-bottom: 30px;
+            border-radius: 2px;
+        }
+
+        /* Títulos de sección internos */
+        .section-title {
+            font-size: 18px;
+            color: var(--text-dark);
+            text-transform: uppercase;
+            margin-bottom: 25px;
+            font-weight: 700;
+            margin-top: 50px;
+        }
+
+        .section-title:first-of-type { margin-top: 0; }
+
+        /* Texto de Descripción */
+        .description-content {
+            color: var(--text-dark);
+            font-size: 16px;
+            line-height: 1.8;
+        }
+
+        .description-content p { margin-bottom: 20px; }
+
+        .description-content strong {
+            color: var(--text-dark);
+            font-weight: 700;
+        }
+
+        .description-content ul {
+            margin-left: 20px;
+            margin-bottom: 25px;
+            color: var(--text-gray);
+        }
+
+        .description-content li { margin-bottom: 10px; }
+
+        /* Requisitos (Experiencia / Educación) */
+        .req-list { font-size: 15px; }
+
+        .req-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 15px;
+            background-color: #fbfbfb;
+            border-radius: 8px;
+            border: 1px solid #f0f0f0;
+        }
+
+        .req-name {
+            font-weight: 700;
+            color: var(--text-dark);
+            font-size: 16px;
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .req-desc { color: var(--text-gray); font-size: 14px; }
+
+        .req-status {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--claro-red);
+            text-transform: uppercase;
+            background: #fff0f0;
+            padding: 6px 15px;
+            border-radius: 20px;
+        }
+
+        /* --- COLUMNA DERECHA (DETALLES RÁPIDOS) --- */
+        .sidebar {
+            flex: 1; 
+            position: sticky; 
+            top: 30px;
+            background: var(--white);
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-card);
+        }
+
+        .sidebar-title {
+            font-size: 16px;
+            color: var(--text-gray);
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-bottom: 20px;
+            letter-spacing: 0.5px;
+        }
+
+        /* Lista de detalles rápida */
+        .quick-details-list { list-style: none; }
+
+        .quick-detail-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 18px;
+            font-size: 14px;
+        }
+
+        .quick-detail-item:last-child { margin-bottom: 0; }
+
+        .detail-icon {
+            width: 35px;
+            height: 35px;
+            border-radius: 8px;
+            background-color: #fff0f0;
+            color: var(--claro-red);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 16px;
+        }
+
+        .detail-text-wrapper { display: flex; flex-direction: column; }
+
+        .detail-label {
+            color: var(--text-gray);
+            font-weight: 400;
+            margin-bottom: 2px;
+        }
+
+        .detail-value {
+            color: var(--text-dark);
+            font-weight: 700;
+        }
+
+        /* =========================================
+           BOTONES DE APLICAR
+           ========================================= */
+        .btn-solid {
+            background: var(--claro-red);
+            border: none;
+            color: var(--white);
+            font-weight: 900;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            box-shadow: 0 5px 15px rgba(218, 41, 28, 0.3);
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-solid:hover {
+            background: var(--claro-dark);
+            transform: translateY(-2px); 
+            box-shadow: 0 8px 20px rgba(218, 41, 28, 0.4);
+        }
+
+        /* Botón gigante al final del contenido */
+        .call-to-action-container {
+            width: 100%;
+            display: flex;
+            justify-content: center; 
+            margin-top: 50px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 40px;
+        }
+
+        .btn-main-apply {
+            padding: 18px 60px;
+            font-size: 16px;
+        }
+
+        /* Botón dentro de la barra lateral */
+        .sidebar-btn {
+            width: 100%;
+            padding: 15px 0;
+            font-size: 15px;
+            margin-top: 25px;
+        }
+
+        /* =========================================
+           FOOTER
+           ========================================= */
+        footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 5%;
+            border-top: 1px solid var(--border-color);
+            background: var(--white);
+            margin-top: auto; 
+        }
+
+        .footer-links a {
+            text-decoration: none;
+            color: var(--text-gray);
+            margin-right: 25px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* Responsive para tablets y móviles */
+        @media (max-width: 900px) {
+            .job-detail-container { flex-direction: column; }
+            .sidebar { width: 100%; position: static; order: -1; margin-bottom: 20px; }
+            .btn-main-apply { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo">
+            <a href="index.html">
+                <img src="logo.png" alt="Claro Logo" height="40">
+            </a>
+        </div>
+        <nav class="nav-links">
+            <a href="index.html">Inicio</a>
+            <a href="#" class="active">Empleos</a>
+        </nav>
+        <div class="auth-links">
+            <a href="#" class="login">Ingresar</a>
+            <a href="#" class="register">Registrarse</a>
+        </div>
+    </header>
+
+    <div class="job-detail-container">
+        
+        <main class="main-content">
+            
+            <a href="busqueda.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Regresar a la búsqueda</a>
+            
+            <div class="job-header">
+                <h1>QA Tester</h1>
+            </div>
+
+            <h2 class="section-title">Descripción de la oferta</h2>
+            <div class="description-content">
+                <p><strong>Descripción del puesto:</strong><br>
+                Buscamos un QA Tester altamente detallista y analítico, responsable de evaluar metódicamente productos de software para identificar defectos y asegurar su correcto funcionamiento. Su misión será garantizar que nuestros sistemas cumplan con los estándares establecidos y proteger la experiencia del usuario mediante pruebas de regresión, rendimiento, usabilidad y seguridad. Además, colaborará en la mejora de sistemas y aplicativos, certificando ajustes y documentando manuales de usuario.</p>
+
+                <p><strong>Requisitos clave:</strong></p>
+                <ul>
+                    <li>Educación: Ingeniería en Computación, Sistemas o carreras afines.</li>
+                    <li>Experiencia: Se recomienda al menos 2 años en posiciones similares.</li>
+                    <li>Habilidades: Pensamiento estructurado y analítico, atención al detalle, proactividad y capacidad de trabajo en equipo.</li>
+                </ul>
+
+                <p><strong>Conocimientos técnicos esperados:</strong></p>
+                <ul>
+                    <li>Procesos de pruebas y testeos automatizados.</li>
+                    <li>Transact-SQL (T-SQL) a nivel básico.</li>
+                    <li>Metodologías de desarrollo de software como Agile o DevOps.</li>
+                    <li>Herramientas de gestión de pruebas como Selenium, JMeter, LoadRunner, Gatling, entre otras.</li>
+                    <li>Manejo de Power Query o Tableau para análisis de datos.</li>
+                    <li>Competencias adicionales: Redacción estructurada, uso de herramientas de seguimiento como JIRA y Confluence.</li>
+                </ul>
+
+                <p><strong>Responsabilidades principales:</strong></p>
+                <ul>
+                    <li>Levantar requerimientos y documentar historias de usuario para el desarrollo o mejora de sistemas.</li>
+                    <li>Definir y ejecutar planes de pruebas para validar el correcto funcionamiento del software.</li>
+                    <li>Identificar, documentar y reportar errores o defectos encontrados durante el proceso de certificación.</li>
+                    <li>Planificar e implementar pruebas automatizadas.</li>
+                    <li>Elaborar y actualizar manuales de usuario de los sistemas implementados.</li>
+                </ul>
+            </div>
+
+            <h2 class="section-title">Experiencia Requerida</h2>
+            <div class="req-list">
+                <div class="req-item">
+                    <div>
+                        <span class="req-name">Analista de Control de Calidad</span>
+                    </div>
+                    <span class="req-status">Requerido</span>
+                </div>
+            </div>
+
+            <h2 class="section-title">Educación Superior</h2>
+            <div class="req-list">
+                <div class="req-item">
+                    <div>
+                        <span class="req-name">Informática | Sistemas</span>
+                        <span class="req-desc">Universidad Completa | Graduado</span>
+                    </div>
+                    <span class="req-status">Requerido</span>
+                </div>
+                <div class="req-item">
+                    <div>
+                        <span class="req-name">Ingeniería Industrial</span>
+                        <span class="req-desc">Universidad Completa | Graduado</span>
+                    </div>
+                    <span class="req-status" style="background: #e2e8f0; color: #475569;">Opcional</span>
+                </div>
+            </div>
+
+            <div class="call-to-action-container">
+                <button class="btn-solid btn-main-apply">Aplicar a esta vacante ahora</button>
+            </div>
+
+        </main>
+
+        <aside class="sidebar">
+            <h3 class="sidebar-title">Resumen de la oferta</h3>
+            <ul class="quick-details-list">
+                <li class="quick-detail-item">
+                    <div class="detail-icon"><i class="fa-solid fa-hourglass-half"></i></div>
+                    <div class="detail-text-wrapper">
+                        <span class="detail-label">Fecha de expiración</span>
+                        <span class="detail-value">10/04/2026</span>
+                    </div>
+                </li>
+                <li class="quick-detail-item">
+                    <div class="detail-icon"><i class="fa-solid fa-location-dot"></i></div>
+                    <div class="detail-text-wrapper">
+                        <span class="detail-label">Ubicación</span>
+                        <span class="detail-value">Managua, Nicaragua</span>
+                    </div>
+                </li>
+                <li class="quick-detail-item">
+                    <div class="detail-icon"><i class="fa-solid fa-briefcase"></i></div>
+                    <div class="detail-text-wrapper">
+                        <span class="detail-label">Área</span>
+                        <span class="detail-value">Informática | Internet</span>
+                    </div>
+                </li>
+                <li class="quick-detail-item">
+                    <div class="detail-icon"><i class="fa-solid fa-user-tie"></i></div>
+                    <div class="detail-text-wrapper">
+                        <span class="detail-label">Cargo</span>
+                        <span class="detail-value">Analista de Calidad</span>
+                    </div>
+                </li>
+                <li class="quick-detail-item">
+                    <div class="detail-icon"><i class="fa-solid fa-calendar-check"></i></div>
+                    <div class="detail-text-wrapper">
+                        <span class="detail-label">Tipo de contrato</span>
+                        <span class="detail-value">Tiempo completo</span>
+                    </div>
+                </li>
+                <li class="quick-detail-item">
+                    <div class="detail-icon"><i class="fa-solid fa-star"></i></div>
+                    <div class="detail-text-wrapper">
+                        <span class="detail-label">Experiencia</span>
+                        <span class="detail-value">1 - 3 años</span>
+                    </div>
+                </li>
+                <li class="quick-detail-item">
+                    <div class="detail-icon"><i class="fa-solid fa-money-bill-wave"></i></div>
+                    <div class="detail-text-wrapper">
+                        <span class="detail-label">Salario</span>
+                        <span class="detail-value">Competitivo</span>
+                    </div>
+                </li>
+            </ul>
+            
+            <button class="btn-solid sidebar-btn">Aplicar Ahora</button>
+            
+        </aside>
+
+    </div>
+
+    <footer>
+        <nav class="footer-links">
+            <a href="index.html">Inicio</a>
+            <a href="#">Empleos</a>
+        </nav>
+        <div class="logo">
+            <img src="logo.png" alt="Claro Logo" height="30">
+        </div>
+    </footer>
+
+</body>
+</html>

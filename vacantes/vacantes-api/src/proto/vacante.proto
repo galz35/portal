@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+package vacantes.vacante;
+
+service VacanteService {
+  rpc ListarPublicas (ListarPublicasRequest) returns (ListarPublicasResponse);
+  rpc ObtenerDetalle (ObtenerDetalleRequest) returns (ObtenerDetalleResponse);
+  rpc CrearVacante (CrearVacanteRequest) returns (CrearVacanteResponse);
+  rpc CambiarEstadoVacante (CambiarEstadoVacanteRequest) returns (CambiarEstadoVacanteResponse);
+}
+
+message ListarPublicasRequest {
+  string codigo_pais = 1;
+  string area = 2;
+  string modalidad = 3;
+  string texto = 4;
+}
+
+message VacanteItem {
+  int32 id_vacante = 1;
+  string codigo_vacante = 2;
+  string slug = 3;
+  string titulo = 4;
+  string ubicacion = 5;
+  string codigo_pais = 6;
+  string modalidad = 7;
+}
+
+message ListarPublicasResponse {
+  repeated VacanteItem items = 1;
+}
+
+message ObtenerDetalleRequest {
+  string slug = 1;
+}
+
+message ObtenerDetalleResponse {
+  int32 id_vacante = 1;
+  string titulo = 2;
+  string descripcion = 3;
+  string requisitos = 4;
+  string codigo_pais = 5;
+  string modalidad = 6;
+}
+
+message CrearVacanteRequest {
+  string titulo = 1;
+  string descripcion = 2;
+  string requisitos = 3;
+  string codigo_pais = 4;
+}
+
+message CrearVacanteResponse {
+  int32 id_vacante = 1;
+}
+
+message CambiarEstadoVacanteRequest {
+  int32 id_vacante = 1;
+  string estado_nuevo = 2;
+  string observacion = 3;
+  int32 id_cuenta_portal = 4;
+}
+
+message CambiarEstadoVacanteResponse {
+  bool exito = 1;
+}

@@ -1,0 +1,9 @@
+{
+    "nest_total_endpoints":  264,
+    "rust_manifest_real":  130,
+    "rust_implemented_declared_file":  254,
+    "rust_declared_untracked":  134,
+    "rust_generic":  0,
+    "rust_missing":  0,
+    "security_mismatch_hints":  0
+}

@@ -1,0 +1,32 @@
+[package]
+name = "vacantes-api"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+axum = { version = "0.8", features = ["multipart"] }
+tokio = { version = "1", features = ["full"] }
+tower = "0.5"
+tower-http = { version = "0.6", features = ["cors", "trace"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+chrono = { version = "0.4", default-features = false, features = ["clock", "serde"] }
+uuid = { version = "1", features = ["v4", "serde"] }
+time = { version = "0.3", features = ["serde"] }
+thiserror = "2"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["fmt", "env-filter"] }
+validator = { version = "0.18", features = ["derive"] }
+tiberius = { version = "0.12", default-features = false, features = ["tds73", "rustls", "chrono"] }
+tokio-util = { version = "0.7", features = ["compat"] }
+bb8 = "0.8"
+async-trait = "0.1"
+tonic = { version = "0.14", features = ["transport"] }
+prost = "0.14"
+multer = "3"
+sha2 = "0.10"
+argon2 = "0.5"
+rand = "0.8"
+lettre = { version = "0.11", default-features = false, features = ["tokio1-rustls-tls", "smtp-transport", "builder"] }
+dotenvy = "0.15"
+reqwest = { version = "0.13.2", default-features = false, features = ["json", "rustls"] }
