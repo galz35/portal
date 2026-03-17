@@ -91,7 +91,7 @@ export default function LoginEmpleadoPage() {
       <aside className="login-hero">
         <div className="hero-overlay">
           <div className="hero-content">
-            <div className="hero-logo">claro</div>
+            <div className="hero-logo">Claro</div>
             <h2 className="hero-headline">
               Donde la conexión<br />comienza contigo.
             </h2>
